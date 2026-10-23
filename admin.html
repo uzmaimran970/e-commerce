@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Dashboard</title>
+<style>
+*{box-sizing:border-box}body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#f4f4f8;padding:20px}
+h1{color:#6c3ce9}.tabs button,.btn{background:#6c3ce9;color:#fff;border:0;padding:9px 18px;border-radius:6px;cursor:pointer;margin:0 6px 10px 0}
+.tabs .off{background:#bbb}input,select{padding:7px;border:1px solid #ccc;border-radius:5px;width:100%}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;font-size:.9rem}
+td,th{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:middle}th{background:#ece8ff}
+.wrap{overflow-x:auto}.thumb{width:70px;height:70px;object-fit:cover;background:#ddd;border-radius:6px;display:block;margin-bottom:5px}
+#login{max-width:320px;margin:100px auto;background:#fff;padding:24px;border-radius:10px;display:grid;gap:10px}
+#app{display:none}small{color:#666}
+</style></head><body>
+<div id="login"><h2>Admin Login</h2><input type="password" id="pw" placeholder="Password"><button class="btn" onclick="login()">Login</button><small id="le"></small></div>
+<div id="app"><h1>Admin Dashboard</h1>
+<div class="tabs"><button id="t1" onclick="tab(1)">Products</button><button id="t2" class="off" onclick="tab(2)">Orders</button></div>
+<div id="v1"><button class="btn" onclick="addRow()">+ New Product</button><div class="wrap"><table>
+<thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Description</th><th>Active</th><th></th></tr></thead><tbody id="pb"></tbody></table></div></div>
+<div id="v2" style="display:none"><div class="wrap"><table>
+<thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Product</th><th>Qty</th><th>Total</th><th>Status</th></tr></thead><tbody id="ob"></tbody></table></div></div></div>
+<script>
+const API='https://script.google.com/macros/s/AKfycbxcP0KFw6KYi3pfON6UN_OUucp1MITABNUqEp-S80C7SFclnb72Y9sjIoEVyYdh1OTT/exec';
+let KEY='',P=[];const $=id=>document.getElementById(id);
+const post=b=>fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({key:KEY,...b})}).then(r=>r.json());
+async function login(){KEY=$('pw').value;$('le').textContent='Checking...';
+ const r=await (await fetch(API+'?action=products&key='+encodeURIComponent(KEY))).json();
+ const o=await (await fetch(API+'?action=orders&key='+encodeURIComponent(KEY))).json();
+ if(!Array.isArray(o)){$('le').textContent='Password ghalat hai';return;}
+ $('login').style.display='none';$('app').style.display='block';P=r;drawP();drawO(o);}
+function tab(n){$('v1').style.display=n==1?'':'none';$('v2').style.display=n==2?'':'none';$('t1').className=n==1?'':'off';$('t2').className=n==2?'':'off';}
+function drawP(){$('pb').innerHTML=P.map((p,i)=>`<tr><td><img class="thumb" id="im${i}" src="${p.image||''}" alt=""><input type="file" accept="image/*" onchange="up(${i},this)"></td>
+<td><input id="n${i}" value="${p.name||''}"></td><td><input id="pr${i}" type="number" value="${p.price}"></td><td><input id="s${i}" type="number" value="${p.stock}"></td>
+<td><input id="d${i}" value="${p.description||''}"></td><td><select id="a${i}"><option ${String(p.active).toUpperCase()!='FALSE'?'selected':''}>TRUE</option><option ${String(p.active).toUpperCase()=='FALSE'?'selected':''}>FALSE</option></select></td>
+<td><button class="btn" onclick="save(${i},this)">Save</button></td></tr>`).join('');}
+function addRow(){P.push({id:'',name:'',price:0,stock:0,image:'',description:'',active:'TRUE'});drawP();}
+function up(i,inp){const f=inp.files[0];if(!f)return;const img=new Image();img.onload=async()=>{
+ const c=document.createElement('canvas'),s=Math.min(1,800/img.width);c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+ const data=c.toDataURL('image/jpeg',.8).split(',')[1];$('im'+i).alt='Uploading...';
+ const r=await post({action:'upload',data,mime:'image/jpeg',name:'product_'+Date.now()+'.jpg'});
+ if(r.ok){P[i].image=r.url;$('im'+i).src=r.url;alert('Image upload ho gayi, ab Save dabayein');}else alert(r.error);};img.src=URL.createObjectURL(f);}
+async function save(i,b){b.textContent='...';const p={...P[i],name:$('n'+i).value,price:$('pr'+i).value,stock:$('s'+i).value,description:$('d'+i).value,active:$('a'+i).value};
+ const r=await post({action:'saveProduct',p});if(r.ok){P[i]=p;P[i].id=r.id;b.textContent='Saved ✓';}else{alert(r.error);b.textContent='Save';}}
+function drawO(o){$('ob').innerHTML=o.map(x=>`<tr><td>${x.orderId}</td><td>${new Date(x.date).toLocaleString()}</td><td>${x.name}</td><td>${x.phone}</td><td>${x.address}</td><td>${x.product}</td><td>${x.qty}</td><td>${x.total}</td>
+<td><select onchange="post({action:'status',orderId:'${x.orderId}',status:this.value})">${['Pending','Confirmed','Shipped','Delivered','Cancelled'].map(s=>`<option ${s==x.status?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('');}
+</script></body></html>
