@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luxe Store | Premium Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--bg:#f8fafc;--line:#e2e8f0;--gold:#c9a227;--gold2:#a8841a;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+.wrap{max-width:1160px;margin:auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:20;background:#ffffffd9;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:70px}
+.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.5px}.logo span{color:var(--gold)}
+.links{display:flex;gap:30px;align-items:center}.links a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem;transition:.2s}.links a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--ink);color:#fff;border:0;padding:12px 26px;border-radius:999px;font:600 .95rem Inter,sans-serif;cursor:pointer;text-decoration:none;transition:.25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px #0f172a33}.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}.btn:disabled{background:#cbd5e1;cursor:not-allowed;transform:none;box-shadow:none}
+.burger{display:none;background:none;border:0;font-size:1.6rem;cursor:pointer}
+#home{background:radial-gradient(circle at 80% 20%,#c9a22733,transparent 45%),linear-gradient(160deg,#0f172a,#1e293b);color:#fff;padding:110px 0 90px}
+#home .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.tag{display:inline-block;background:#c9a22722;color:#e8c85a;padding:6px 14px;border-radius:999px;font-size:.8rem;font-weight:600;letter-spacing:.5px;margin-bottom:18px}
+h1{font-size:3.4rem;line-height:1.1;letter-spacing:-1.5px;margin-bottom:18px;font-weight:800}h1 em{font-style:normal;color:#e8c85a}
+#home p{color:#cbd5e1;font-size:1.1rem;max-width:480px}.cta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+#home .ghost{color:#fff;border-color:#ffffff40}
+.stats{display:flex;gap:40px;margin-top:44px}.stats b{display:block;font-size:1.7rem;color:#e8c85a}.stats span{font-size:.85rem;color:#94a3b8}
+.heroimg{aspect-ratio:1;border-radius:28px;background:linear-gradient(135deg,#c9a22740,#ffffff10);border:1px solid #ffffff22;display:flex;align-items:center;justify-content:center;font-size:5rem}
+section{padding:90px 0}.head{text-align:center;max-width:560px;margin:0 auto 50px}
+.head small{color:var(--gold2);font-weight:700;letter-spacing:1.5px;font-size:.8rem}.head h2{font-size:2.3rem;letter-spacing:-1px;margin:6px 0 10px}.head p{color:var(--muted)}
+#about{background:var(--bg)}.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.f{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:30px}.f i{font-style:normal;font-size:1.8rem;display:block;margin-bottom:14px}.f h3{margin-bottom:6px}.f p{color:var(--muted);font-size:.95rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:.3s;position:relative}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px #0f172a14}
+.img{aspect-ratio:4/3;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:.85rem}
+.img img{width:100%;height:100%;object-fit:cover}.card .b{padding:22px}.card h3{font-size:1.1rem}
+.card p{color:var(--muted);font-size:.9rem;margin:4px 0 14px;min-height:42px}
+.row{display:flex;justify-content:space-between;align-items:center}.price{font-size:1.35rem;font-weight:800}
+.badge{position:absolute;top:14px;left:14px;background:#fff;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:600;box-shadow:0 2px 8px #0002}.badge.out{background:#fee2e2;color:#b91c1c}.badge.low{background:#fef3c7;color:#92400e}
+.card .btn{padding:10px 20px}.sk{height:340px;border-radius:var(--r);background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200%;animation:sh 1.3s infinite}@keyframes sh{to{background-position:-200%}}
+#contact{background:var(--bg)}.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.c{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:30px;text-align:center}.c i{font-style:normal;font-size:1.6rem}.c h4{margin:8px 0 4px}.c p{color:var(--muted);font-size:.95rem}
+footer{background:var(--ink);color:#94a3b8;padding:60px 0 24px}.fg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid #ffffff1a}
+footer .logo{color:#fff;margin-bottom:10px}footer h5{color:#fff;margin-bottom:12px}footer a{display:block;color:#94a3b8;text-decoration:none;margin-bottom:8px;font-size:.92rem}footer a:hover{color:#e8c85a}
+.copy{text-align:center;font-size:.85rem;padding-top:22px}
+#modal{display:none;position:fixed;inset:0;background:#0f172a99;backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:50;padding:16px}
+#f{background:#fff;padding:30px;border-radius:20px;width:100%;max-width:430px;display:grid;gap:12px;animation:pop .25s}@keyframes pop{from{transform:scale(.94);opacity:0}}
+#f h3{font-size:1.25rem}#f .sum{color:var(--gold2);font-weight:700}
+input,textarea{padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font:inherit;width:100%;outline:0;transition:.2s}input:focus,textarea:focus{border-color:var(--gold)}
+.msg{text-align:center;font-size:.9rem;min-height:20px}.ok{color:#15803d}.er{color:#b91c1c}
+@media(max-width:860px){#home .wrap,.fg{grid-template-columns:1fr}.heroimg{display:none}h1{font-size:2.5rem}.grid,.feat,.cg{grid-template-columns:1fr 1fr}
+.burger{display:block}.links{display:none;position:absolute;top:70px;left:0;right:0;background:#fff;flex-direction:column;padding:20px;border-bottom:1px solid var(--line);gap:16px}.links.open{display:flex}}
+@media(max-width:560px){.grid,.feat,.cg{grid-template-columns:1fr}section{padding:60px 0}.stats{gap:24px}}
+</style></head><body>
+<nav><div class="wrap"><div class="logo">Luxe<span>.</span>Store</div>
+<div class="links" id="lk"><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a><a href="#contact">Contact</a><a class="btn gold" href="#products">Shop Now</a></div>
+<button class="burger" onclick="lk.classList.toggle('open')">☰</button></div></nav>
+
+<section id="home"><div class="wrap"><div>
+<span class="tag">NEW COLLECTION 2026</span><h1>Premium quality, <em>delivered</em> to your door.</h1>
+<p>Handpicked products, honest prices and a smooth ordering experience. Shop with confidence.</p>
+<div class="cta"><a class="btn gold" href="#products">Explore Products</a><a class="btn ghost" href="#contact">Contact Us</a></div>
+<div class="stats"><div><b>500+</b><span>Happy Customers</span></div><div><b>6</b><span>Top Products</span></div><div><b>24/7</b><span>Support</span></div></div>
+</div><div class="heroimg">🛍️</div></div></section>
+
+<section id="about"><div class="wrap"><div class="head"><small>ABOUT US</small><h2>Why customers trust us</h2><p>Hum quality, bharosa aur behtareen service par yaqeen rakhte hain.</p></div>
+<div class="feat"><div class="f"><i>✨</i><h3>Premium Quality</h3><p>Har product ko achi tarah check karke bheja jata hai.</p></div>
+<div class="f"><i>🚚</i><h3>Fast Delivery</h3><p>Order confirm hote hi jaldi se jaldi delivery.</p></div>
+<div class="f"><i>🔒</i><h3>Easy & Secure</h3><p>Seedha order form, koi complicated process nahi.</p></div></div></div></section>
+
+<section id="products"><div class="wrap"><div class="head"><small>OUR PRODUCTS</small><h2>Featured Collection</h2><p>Hamari behtareen products dekhein aur abhi order karein.</p></div>
+<div class="grid" id="grid"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div></section>
+
+<section id="contact"><div class="wrap"><div class="head"><small>CONTACT</small><h2>Get in touch</h2><p>Koi sawal hai? Hum se rabta karein.</p></div>
+<div class="cg"><div class="c"><i>📞</i><h4>Phone</h4><p>0300-0000000</p></div><div class="c"><i>✉️</i><h4>Email</h4><p>info@luxestore.com</p></div><div class="c"><i>📍</i><h4>Address</h4><p>Karachi, Pakistan</p></div></div></div></section>
+
+<footer><div class="wrap"><div class="fg"><div><div class="logo">Luxe<span style="color:#c9a227">.</span>Store</div><p style="max-width:300px;font-size:.92rem">Premium products, simple ordering and friendly support.</p></div>
+<div><h5>Quick Links</h5><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a></div>
+<div><h5>Support</h5><a href="#contact">Contact</a><a href="#products">Order Now</a></div></div>
+<div class="copy">© 2026 Luxe Store. All rights reserved.</div></div></footer>
+
+<div id="modal"><form id="f"><h3 id="mt">Order</h3><div class="sum" id="sm"></div>
+<input id="n" placeholder="Full name" required><input id="p" placeholder="Phone number" required>
+<textarea id="a" rows="3" placeholder="Complete address" required></textarea><input id="q" type="number" min="1" value="1" required>
+<button class="btn gold" id="sb">Confirm Order</button><button type="button" class="btn ghost" onclick="modal.style.display='none'">Cancel</button><div class="msg" id="m"></div></form></div>
+
+<script>
+const API='https://script.google.com/macros/s/AKfycbxcP0KFw6KYi3pfON6UN_OUucp1MITABNUqEp-S80C7SFclnb72Y9sjIoEVyYdh1OTT/exec';
+let P=[],cur=null;const $=id=>document.getElementById(id);
+const e=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.querySelectorAll('.links a').forEach(a=>a.onclick=()=>$('lk').classList.remove('open'));
+async function load(){try{P=await (await fetch(API+'?action=products')).json();render();}
+ catch(x){$('grid').innerHTML='<p style="grid-column:1/-1;text-align:center">Products load nahi huay. Dobara try karein.</p>';}}
+function render(){$('grid').innerHTML=P.slice(0,6).map(p=>{const s=Number(p.stock);
+ return `<div class="card"><span class="badge ${s<=0?'out':s<=5?'low':''}">${s<=0?'Sold Out':s<=5?'Only '+s+' left':'In Stock'}</span>
+ <div class="img">${p.image?`<img src="${e(p.image)}" alt="${e(p.name)}" loading="lazy">`:'Product Image'}</div>
+ <div class="b"><h3>${e(p.name)}</h3><p>${e(p.description)}</p><div class="row"><span class="price">Rs ${e(p.price)}</span>
+ <button class="btn" ${s>0?'':'disabled'} onclick="buy('${e(p.id)}')">Buy Now</button></div></div></div>`}).join('');}
+function buy(id){cur=P.find(x=>x.id==id);$('mt').textContent=cur.name;$('sm').textContent='Rs '+cur.price+' per item';$('q').max=cur.stock;$('m').textContent='';$('modal').style.display='flex';}
+$('f').onsubmit=async ev=>{ev.preventDefault();$('sb').disabled=true;$('m').className='msg';$('m').textContent='Please wait...';
+ try{const r=await (await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'order',productId:cur.id,name:$('n').value,phone:$('p').value,address:$('a').value,qty:$('q').value})})).json();
+ if(r.ok){$('m').className='msg ok';$('m').textContent='Shukriya! Order ID: '+r.orderId;$('f').reset();load();setTimeout(()=>$('modal').style.display='none',2500);}
+ else{$('m').className='msg er';$('m').textContent=r.error;}}catch(x){$('m').className='msg er';$('m').textContent='Error, dobara try karein';}
+ $('sb').disabled=false;};
+load();
+</script></body></html>
